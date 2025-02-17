@@ -1,77 +1,415 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet 6 - Meilleurs Films</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <img src="logo.jpg" alt="Logo">
-        <h1>Vidéo à la demande</h1>
-    </header>
-    <main>
-        <section id="best-movie">
-            <h2>Meilleur Film</h2>
-            <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Affiche du meilleur film">
-            <h3>Titre du Meilleur Film</h3>
-            <button>Détails</button>
-            <p>Résumé du meilleur film...</p>
-        </section>
-        <section id="category-1">
-            <h2>Action</h2>
-            <div class="movie-list">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Action">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        background-color: #343a40;
+        color: white;
+      }
+      .movie-card {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .movie-card img {
+        border-radius: 5px 5px 0 0;
+      }
+      .movie-details {
+        padding: 15px;
+      }
+      .btn-details {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 15px;
+        cursor: pointer;
+      }
+      .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
+        gap: 20px; /* Adds spacing between grid items */
+      }
+
+      @media (max-width: 768px) {
+        .movie-grid {
+          grid-template-columns: repeat(
+            2,
+            1fr
+          ); /* Adjust to 2 columns on smaller screens */
+        }
+      }
+
+      @media (max-width: 576px) {
+        .movie-grid {
+          grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"> JustStreamIt </a>
+        <span>Vidéos à la demande</span>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+      <h2>Meilleur film</h2>
+      <div class="movie-card">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img
+              src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
+              class="img-fluid"
+              alt="The Big Lebowski"
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="movie-details">
+              <h3>The Big Lebowski</h3>
+              <p>
+                Jeff "The Dude" Lebowski, mistaken for a millionaire of the same
+                name, seeks restitution for his ruined rug and enlists his
+                bowling buddies to help get it.
+              </p>
+              <button class="btn-details">Détails</button>
             </div>
-        </section>
-        <section id="category-2">
-            <h2>Aventure</h2>
-            <div class="movie-list">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Aventure">
-            </div>
-        </section>
-        <section id="category-3">
-            <h2>Comédie</h2>
-            <div class="movie-list">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Comédie">
-            </div>
-        </section>
-        <section id="custom-category">
-            <h2>Catégorie Libre</h2>
-            <select id="category-select">
-                <option value="action">Action</option>
-                <option value="adventure">Aventure</option>
-                <option value="comedy">Comédie</option>
-                <option value="drama">Drame</option>
-                <option value="horror">Horreur</option>
-                <option value="sci-fi">Science-Fiction</option>
-            </select>
-            <div class="movie-list">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-                <img src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg" alt="Film Catégorie Libre">
-            </div>
-        </section>
-    </main>
-    <script src="scripts.js"></script>
-</body>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mystery Section -->
+      <h2>Mystery</h2>
+      <div class="movie-grid">
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_titanic.jpg"
+            class="img-fluid"
+            alt="Titanic"
+          />
+          <div class="movie-details">
+            <h6>Titanic</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            class="img-fluid"
+            alt="Retour vers le futur"
+          />
+          <div class="movie-details">
+            <h6>Retour vers le futur</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_scarface.jpg"
+            class="img-fluid"
+            alt="Scarface"
+          />
+          <div class="movie-details">
+            <h6>Scarface</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            class="img-fluid"
+            alt="Pulp Fiction"
+          />
+          <div class="movie-details">
+            <h6>Pulp Fiction</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_godfather.jpg"
+            class="img-fluid"
+            alt="Le Parrain"
+          />
+          <div class="movie-details">
+            <h6>Le Parrain</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_alien.jpg"
+            class="img-fluid"
+            alt="Alien"
+          />
+          <div class="movie-details">
+            <h6>Alien</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+      </div>
+      <!-- Mystery Section -->
+      <h2>Mystery</h2>
+      <div class="movie-grid">
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_titanic.jpg"
+            class="img-fluid"
+            alt="Titanic"
+          />
+          <div class="movie-details">
+            <h6>Titanic</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            class="img-fluid"
+            alt="Retour vers le futur"
+          />
+          <div class="movie-details">
+            <h6>Retour vers le futur</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_scarface.jpg"
+            class="img-fluid"
+            alt="Scarface"
+          />
+          <div class="movie-details">
+            <h6>Scarface</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            class="img-fluid"
+            alt="Pulp Fiction"
+          />
+          <div class="movie-details">
+            <h6>Pulp Fiction</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_godfather.jpg"
+            class="img-fluid"
+            alt="Le Parrain"
+          />
+          <div class="movie-details">
+            <h6>Le Parrain</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_alien.jpg"
+            class="img-fluid"
+            alt="Alien"
+          />
+          <div class="movie-details">
+            <h6>Alien</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+      </div>
+      <!-- Mystery Section -->
+      <h2>Mystery</h2>
+      <div class="movie-grid">
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_titanic.jpg"
+            class="img-fluid"
+            alt="Titanic"
+          />
+          <div class="movie-details">
+            <h6>Titanic</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            class="img-fluid"
+            alt="Retour vers le futur"
+          />
+          <div class="movie-details">
+            <h6>Retour vers le futur</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_scarface.jpg"
+            class="img-fluid"
+            alt="Scarface"
+          />
+          <div class="movie-details">
+            <h6>Scarface</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            class="img-fluid"
+            alt="Pulp Fiction"
+          />
+          <div class="movie-details">
+            <h6>Pulp Fiction</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_godfather.jpg"
+            class="img-fluid"
+            alt="Le Parrain"
+          />
+          <div class="movie-details">
+            <h6>Le Parrain</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_alien.jpg"
+            class="img-fluid"
+            alt="Alien"
+          />
+          <div class="movie-details">
+            <h6>Alien</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+      </div>
+      <!-- Autres Section -->
+      <div class="d-flex align-items-center mb-3">
+        <h2 class="me-3">Autres</h2>
+        <div>
+          <select class="form-select" id="categorySelect">
+            <option selected>Choisir...</option>
+            <option value="1">Documentaire</option>
+            <option value="2">Animation</option>
+            <option value="3">Horreur</option>
+            <option value="4">Romance</option>
+            <option value="5">Science-fiction</option>
+          </select>
+        </div>
+      </div>
+      <div class="movie-grid">
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_titanic.jpg"
+            class="img-fluid"
+            alt="Titanic"
+          />
+          <div class="movie-details">
+            <h6>Titanic</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            class="img-fluid"
+            alt="Retour vers le futur"
+          />
+          <div class="movie-details">
+            <h6>Retour vers le futur</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_scarface.jpg"
+            class="img-fluid"
+            alt="Scarface"
+          />
+          <div class="movie-details">
+            <h6>Scarface</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            class="img-fluid"
+            alt="Pulp Fiction"
+          />
+          <div class="movie-details">
+            <h6>Pulp Fiction</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_godfather.jpg"
+            class="img-fluid"
+            alt="Le Parrain"
+          />
+          <div class="movie-details">
+            <h6>Le Parrain</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+
+        <div class="movie-card">
+          <img
+            src="https://i.imgur.com/dummy_alien.jpg"
+            class="img-fluid"
+            alt="Alien"
+          />
+          <div class="movie-details">
+            <h6>Alien</h6>
+            <button class="btn-details">Détails</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
