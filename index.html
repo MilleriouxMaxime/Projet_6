@@ -29,9 +29,20 @@
         margin-top: 20px;
         margin-right: 30px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* important pour que le bandeau ne dépasse pas*/
+        position: relative; /* important pour positionner le bandeau absolument */
       }
       .movie-card img {
         border-radius: 5px 5px 0 0;
+        width: 100%; /* L'image prend toute la largeur */
+        height: auto; /* Garde les proportions de l'image */
+        display: block; /* Enlève l'espace en dessous de l'image */
+      }
+      .best-movie-card img {
+        border-radius: 5px 5px 0 0;
+        width: auto; /* L'image prend toute la largeur */
+        height: 100%; /* Garde les proportions de l'image */
+        display: block; /* Enlève l'espace en dessous de l'image */
       }
       .movie-details {
         padding: 15px;
@@ -64,13 +75,31 @@
           grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
         }
       }
+
+      /* Style pour le bandeau noir transparent */
+      .movie-card .overlay {
+        position: absolute; /* Positionnement absolu */
+        bottom: 0; /* Collé au bas de la carte */
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Noir transparent */
+        color: white;
+        padding: 10px;
+        text-align: center;
+        border-radius: 0 0 5px 5px; /* même border radius que la carte */
+      }
+
+      .movie-card .overlay h6 {
+        margin: 0; /* Enlève les marges par défaut du titre */
+        font-size: 1em; /* Ajuste la taille du titre */
+      }
     </style>
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"> JustStreamIt </a>
+        <a class="navbar-brand" href="#">JustStreamIt</a>
         <span>Vidéos à la demande</span>
       </div>
     </nav>
@@ -79,7 +108,7 @@
     <div class="container mt-4">
       <h2>Meilleur film</h2>
       <div class="best-movie">
-        <div class="movie-card">
+        <div class="best-movie-card">
           <div class="row g-0">
             <div class="col-md-4">
               <img
@@ -107,23 +136,21 @@
       <div class="movie-grid">
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_titanic.jpg"
-            class="img-fluid"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             alt="Titanic"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Titanic</h6>
             <button class="btn-details">Détails</button>
           </div>
         </div>
-
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Retour vers le futur"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Retour vers le futur</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -131,11 +158,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_scarface.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Scarface"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Scarface</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -143,11 +170,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Pulp Fiction"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Pulp Fiction</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -155,11 +182,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_godfather.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Le Parrain"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Le Parrain</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -167,11 +194,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_alien.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Alien"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Alien</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -182,11 +209,11 @@
       <div class="movie-grid">
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_titanic.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Titanic"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Titanic</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -194,11 +221,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Retour vers le futur"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Retour vers le futur</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -206,11 +233,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_scarface.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Scarface"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Scarface</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -218,23 +245,22 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Pulp Fiction"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Pulp Fiction</h6>
             <button class="btn-details">Détails</button>
           </div>
         </div>
-
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_godfather.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Le Parrain"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Le Parrain</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -242,26 +268,27 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_alien.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Alien"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Alien</h6>
             <button class="btn-details">Détails</button>
           </div>
         </div>
       </div>
+
       <!-- Mystery Section -->
       <h2>Mystery</h2>
       <div class="movie-grid">
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_titanic.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Titanic"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Titanic</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -269,11 +296,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Retour vers le futur"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Retour vers le futur</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -281,11 +308,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_scarface.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Scarface"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Scarface</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -293,23 +320,22 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Pulp Fiction"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Pulp Fiction</h6>
             <button class="btn-details">Détails</button>
           </div>
         </div>
-
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_godfather.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Le Parrain"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Le Parrain</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -317,11 +343,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_alien.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Alien"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Alien</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -344,11 +370,11 @@
       <div class="movie-grid">
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_titanic.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Titanic"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Titanic</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -356,11 +382,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_back_to_future.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Retour vers le futur"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Retour vers le futur</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -368,11 +394,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_scarface.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Scarface"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Scarface</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -380,23 +406,22 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_pulp_fiction.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Pulp Fiction"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Pulp Fiction</h6>
             <button class="btn-details">Détails</button>
           </div>
         </div>
-
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_godfather.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Le Parrain"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Le Parrain</h6>
             <button class="btn-details">Détails</button>
           </div>
@@ -404,11 +429,11 @@
 
         <div class="movie-card">
           <img
-            src="https://i.imgur.com/dummy_alien.jpg"
+            src="https://thumbor.comeup.com/unsafe/fit-in/630x354/filters:quality(90):no_upscale()/uploads/media/picture/2021-05-17/joshua-woroniecki-hxgugpd1dls-unsplash-60a268ea7a499.jpg"
             class="img-fluid"
             alt="Alien"
           />
-          <div class="movie-details">
+          <div class="overlay">
             <h6>Alien</h6>
             <button class="btn-details">Détails</button>
           </div>
