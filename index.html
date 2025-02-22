@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <header>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie App</title>
@@ -13,9 +13,16 @@
     <style>
       body {
         background-color: #f8f9fa;
+        font-family: Oswald;
+      }
+      h2,
+      h3 {
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
       .navbar {
-        background-color: #343a40;
+        background-color: #61787f;
         color: white;
       }
       .best-movie {
@@ -26,10 +33,6 @@
       .movie-card {
         border: 1px solid #dee2e6;
         border-radius: 5px;
-        margin-bottom: 20px;
-        margin-left: 30px;
-        margin-top: 20px;
-        margin-right: 30px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         overflow: hidden; /* important pour que le bandeau ne dépasse pas*/
         position: relative; /* important pour positionner le bandeau absolument */
@@ -55,13 +58,13 @@
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 5px 15px;
+        padding: 10px 30px;
         cursor: pointer;
         bottom: 10px;
         right: 10px;
       }
       .btn-details {
-        background-color: #dc3545;
+        background-color: #2d2c2c;
         color: white;
         border: none;
         border-radius: 50px;
@@ -73,13 +76,42 @@
         grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
         gap: 20px; /* Adds spacing between grid items */
       }
-
+      .navbar {
+        height: 122px;
+      }
+      /* Style pour le bandeau noir transparent */
+      .movie-card .overlay {
+        position: absolute; /* Positionnement absolu */
+        bottom: 0; /* Collé au bas de la carte */
+        margin-bottom: 25%;
+        margin-top: 10%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.4); /* Noir transparent */
+        padding: 5%;
+        text-align: center;
+        border-radius: 0 0 5px 5px; /* même border radius que la carte */
+      }
+      .movie-card .overlay h6 {
+        margin: 0; /* Enlève les marges par défaut du titre */
+        font-size: 1em; /* Ajuste la taille du titre */
+        color: white; /* Couleur du texte */
+      }
+      .navbar img {
+        height: 100%;
+        max-height: 80px; /* Adjust based on navbar height */
+        width: auto; /* Keeps the aspect ratio */
+        margin-left: 12px;
+      }
       @media (max-width: 768px) {
         .movie-grid {
           grid-template-columns: repeat(
             2,
             1fr
           ); /* Adjust to 2 columns on smaller screens */
+        }
+        .navbar {
+          height: 137px;
         }
       }
 
@@ -88,37 +120,20 @@
           grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
         }
       }
-
-      /* Style pour le bandeau noir transparent */
-      .movie-card .overlay {
-        position: absolute; /* Positionnement absolu */
-        bottom: 0; /* Collé au bas de la carte */
-        left: 0;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Noir transparent */
-        padding: 10px;
-        text-align: center;
-        border-radius: 0 0 5px 5px; /* même border radius que la carte */
-      }
-
-      .movie-card .overlay h6 {
-        margin: 0; /* Enlève les marges par défaut du titre */
-        font-size: 1em; /* Ajuste la taille du titre */
-        color: white; /* Couleur du texte */
-      }
     </style>
-  </head>
+  </header>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">JustStreamIt</a>
-        <span>Vidéos à la demande</span>
-      </div>
-    </nav>
+    <main class="container mt-4">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <div class="container-fluid">
+          <img src="logo.png" alt="JustStreamIt Logo" class="me-2" />
+          <span>Vidéos à la demande</span>
+        </div>
+      </nav>
 
-    <!-- Main Content -->
-    <div class="container mt-4">
+      <!-- Main Content -->
+
       <h2>Meilleur film</h2>
       <div class="best-movie">
         <div class="best-movie-card">
@@ -454,7 +469,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
