@@ -13,22 +13,70 @@
     <style>
       body {
         background-color: #f8f9fa;
-        font-family: Oswald;
+        font-family: Oswald, sans-serif;
+      }
+      p {
+        font-size: 2em;
       }
       h2,
       h3 {
-        font-weight: bold;
+        font-weight: 600;
         margin-top: 20px;
         margin-bottom: 20px;
+        font-size: 3em;
       }
       .navbar {
-        background-color: #61787f;
+        background-color: #5b7077;
         color: white;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid black;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      .logo span {
+        font-size: 2em;
+        padding-left: 40px;
+        font-size: 40px;
+        font-weight: 300;
       }
       .best-movie {
         border: 0.25em solid black;
         position: relative;
         margin-bottom: 30px;
+      }
+      .movie-details {
+        padding: 15px;
+      }
+      .best-movie-card img {
+        border-radius: 5px 5px 0 0;
+        width: auto; /* L'image prend toute la largeur */
+        height: 100%; /* Garde les proportions de l'image */
+        display: block; /* Enlève l'espace en dessous de l'image */
+      }
+      .btn-details-main {
+        position: absolute;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 30px;
+        cursor: pointer;
+        bottom: 10px;
+        right: 10px;
+      }
+      .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
+        gap: 20px; /* Adds spacing between grid items */
       }
       .movie-card {
         border: 1px solid #dee2e6;
@@ -43,26 +91,6 @@
         height: auto; /* Garde les proportions de l'image */
         display: block; /* Enlève l'espace en dessous de l'image */
       }
-      .best-movie-card img {
-        border-radius: 5px 5px 0 0;
-        width: auto; /* L'image prend toute la largeur */
-        height: 100%; /* Garde les proportions de l'image */
-        display: block; /* Enlève l'espace en dessous de l'image */
-      }
-      .movie-details {
-        padding: 15px;
-      }
-      .btn-details-main {
-        position: absolute;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 10px 30px;
-        cursor: pointer;
-        bottom: 10px;
-        right: 10px;
-      }
       .btn-details {
         background-color: #2d2c2c;
         color: white;
@@ -70,14 +98,6 @@
         border-radius: 50px;
         padding: 5px 15px;
         cursor: pointer;
-      }
-      .movie-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
-        gap: 20px; /* Adds spacing between grid items */
-      }
-      .navbar {
-        height: 122px;
       }
       /* Style pour le bandeau noir transparent */
       .movie-card .overlay {
@@ -119,20 +139,25 @@
         .movie-grid {
           grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
         }
+        .logo span {
+          display: none;
+        }
+        .navbar {
+          justify-content: center;
+        }
       }
     </style>
   </header>
   <body>
+    <!-- Main Content -->
     <main class="container mt-4">
       <!-- Navbar -->
       <nav class="navbar">
-        <div class="container-fluid">
-          <img src="logo.png" alt="JustStreamIt Logo" class="me-2" />
+        <div class="logo">
+          <img src="logo.png" alt="JustStreamIt Logo" />
           <span>Vidéos à la demande</span>
         </div>
       </nav>
-
-      <!-- Main Content -->
 
       <h2>Meilleur film</h2>
       <div class="best-movie">
