@@ -57,6 +57,11 @@
       }
       .movie-details {
         padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Pushes button to the bottom */
+        position: relative; /* Needed if you choose absolute positioning for the button */
       }
       .best-movie-card img {
         width: auto; /* L'image prend toute la largeur */
@@ -65,7 +70,6 @@
         padding: 20px;
       }
       .btn-details-main {
-        position: relative;
         background-color: #fa0b0b;
         color: white;
         border: none;
@@ -75,6 +79,7 @@
         bottom: 20px;
         right: 20px;
         font-size: 25px;
+        align-self: flex-end;
       }
       .movie-grid {
         display: grid;
@@ -157,6 +162,9 @@
         }
         .navbar {
           justify-content: center;
+        }
+        .btn-details-main {
+          align-self: center;
         }
       }
     </style>
