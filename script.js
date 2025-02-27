@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Container for the best rated movies
     const bestRatedContainer = document.getElementById("best-movie-grid");
     const actionMoviesContainer = document.getElementById("action-movie-grid");
+    const adventureMoviesContainer = document.getElementById("adventure-movie-grid");
 
     // Fetch and display the best movie
     fetchMovies("http://127.0.0.1:8000/api/v1/titles/?page_size=7&sort_by=-imdb_score")
@@ -27,6 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((movies) => {
             if (movies && movies.length > 0) {
                 generateMovieCards(movies, actionMoviesContainer);
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching action movies:", error);
+        });
+        
+    fetchMovies("http://127.0.0.1:8000/api/v1/titles/?page_size=6&sort_by=-imdb_score&genre_contains=Adventure")
+        .then((movies) => {
+            if (movies && movies.length > 0) {
+                generateMovieCards(movies, adventureMoviesContainer);
             }
         })
         .catch((error) => {
