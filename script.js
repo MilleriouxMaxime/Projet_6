@@ -5,11 +5,11 @@ function main() {
     const bestMovieTitle = bestMovieCard.querySelector(".movie-details h3");
     const bestMovieDescription = bestMovieCard.querySelector(".movie-details p");
 
-    // Container for the best rated movies
+    // Containers for the movies
     const bestRatedContainer = document.getElementById("best-movie-grid");
-    // Containers for action and adventure movies
     const actionMoviesContainer = document.getElementById("action-movie-grid");
     const adventureMoviesContainer = document.getElementById("adventure-movie-grid");
+    const categoryMoviesContainer = document.getElementById("category-movie-grid"); // New container for selected genre movies
 
     // Fetch and display the best movie
     fetchMovies("http://127.0.0.1:8000/api/v1/titles/?page_size=7&sort_by=-imdb_score")
@@ -34,7 +34,7 @@ function main() {
         .catch((error) => {
             console.error("Error fetching action movies:", error);
         });
-    
+
     // Fetch and display adventure movies
     fetchMovies("http://127.0.0.1:8000/api/v1/titles/?page_size=6&sort_by=-imdb_score&genre_contains=Adventure")
         .then((movies) => {
@@ -43,8 +43,48 @@ function main() {
             }
         })
         .catch((error) => {
-            console.error("Error fetching action movies:", error);
+            console.error("Error fetching adventure movies:", error);
         });
+
+    // Populate the genre select
+    const categorySelect = document.getElementById("categorySelect");
+    fetchGenres("http://localhost:8000/api/v1/genres/?page_size=50")
+        .then((genres) => {
+            // Start with a default option
+            categorySelect.innerHTML = `<option value="">Select Genre</option>`;
+            genres.forEach((genre) => {
+                const option = document.createElement("option");
+                // Assuming each genre object has a "name" property
+                option.value = genre.name;
+                option.textContent = genre.name;
+                categorySelect.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.error("Error fetching genres:", error);
+        });
+
+    // Add event listener to load movies for the selected genre
+    categorySelect.addEventListener("change", (event) => {
+        // console.log("hello");
+        const selectedGenre = event.target.value;
+        // console.log(selectedGenre);
+        if (selectedGenre) {
+            fetchMovies(`http://127.0.0.1:8000/api/v1/titles/?page_size=6&sort_by=-imdb_score&genre_contains=${selectedGenre}`)
+                .then((movies) => {
+                    if (movies && movies.length > 0) {
+                        generateMovieCards(movies, categoryMoviesContainer);
+                    } else {
+                        categoryMoviesContainer.innerHTML = "No movies found for this genre.";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching movies for selected genre:", error);
+                });
+        } else {
+            categoryMoviesContainer.innerHTML = "";
+        }
+    });
 };
 
 // Function to fetch movies from a given URL
@@ -54,6 +94,17 @@ async function fetchMovies(url) {
         .then((data) => data.results)
         .catch((error) => {
             console.error("Error fetching movies:", error);
+            return [];
+        });
+}
+
+// Function to fetch genres from a given URL
+async function fetchGenres(url) {
+    return fetch(url)
+        .then((response) => response.json())
+        .then((data) => data.results)
+        .catch((error) => {
+            console.error("Error fetching genres:", error);
             return [];
         });
 }
