@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+function main() {
     // Select the best movie card elements
     const bestMovieCard = document.querySelector(".best-movie-card");
     const bestMovieImage = bestMovieCard.querySelector("img");
@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Container for the best rated movies
     const bestRatedContainer = document.getElementById("best-movie-grid");
+    // Containers for action and adventure movies
     const actionMoviesContainer = document.getElementById("action-movie-grid");
     const adventureMoviesContainer = document.getElementById("adventure-movie-grid");
 
@@ -33,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => {
             console.error("Error fetching action movies:", error);
         });
-        
+    
+    // Fetch and display adventure movies
     fetchMovies("http://127.0.0.1:8000/api/v1/titles/?page_size=6&sort_by=-imdb_score&genre_contains=Adventure")
         .then((movies) => {
             if (movies && movies.length > 0) {
@@ -43,10 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => {
             console.error("Error fetching action movies:", error);
         });
-});
+};
 
 // Function to fetch movies from a given URL
-function fetchMovies(url) {
+async function fetchMovies(url) {
     return fetch(url)
         .then((response) => response.json())
         .then((data) => data.results)
@@ -90,3 +92,6 @@ function generateMovieCards(movies, container) {
         container.appendChild(card);
     });
 }
+
+// Call the main function
+main();
