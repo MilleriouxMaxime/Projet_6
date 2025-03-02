@@ -172,11 +172,11 @@ function showMovieModal(movieId) {
                         Réalisé par: ${movie.directors ? (Array.isArray(movie.directors) ? movie.directors.join(', ') : movie.directors) : ''}
                     </div>
                     <div class="movie-modal-description">
-                        ${movie.description}
+                        ${movie.long_description}
                     </div>
                     <div class="movie-modal-cast">
                         <strong>Avec:</strong><br />
-                        ${movie.cast ? (Array.isArray(movie.cast) ? movie.cast.join(', ') : movie.cast) : ''}
+                        ${movie.actors ? (Array.isArray(movie.actors) ? movie.actors.join(', ') : movie.actors) : ''}
                     </div>
                     </div>
                     <!-- Right Column: Poster Image -->
