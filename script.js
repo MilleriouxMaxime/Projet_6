@@ -137,7 +137,7 @@ function generateMovieCards(movies, container) {
             <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
             <div class="overlay">
                 <h6>${movie.title}</h6>
-                <button class="btn-details">Détails</button>
+                <button class="btn-details" data-bs-toggle="modal" data-bs-target="#movieDetailsModal">Détails</button>
             </div>
         `;
         container.appendChild(card);
