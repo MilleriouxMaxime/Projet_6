@@ -1,127 +1,131 @@
-// Main function to fetch and display movies and genres
+// Fonction principale pour récupérer et afficher les films et les genres
 function main() {
-  // Def BaseURL
-  const baseURL = "http://127.0.0.1:8000/api/v1/titles/";
-  // Select the best movie card elements
-  const bestMovieCard = document.querySelector(".best-movie-card");
+  // Définir l'URL de base
+  const baseURL = "http://127.0.0.1:8000/api/v1/titles/"; // URL de base pour les requêtes API
+  // Sélectionner les éléments de la carte du meilleur film
+  const bestMovieCard = document.querySelector(".best-movie-card"); // Sélectionne l'élément de la carte du meilleur film
 
-  // Containers for the movies
-  const bestRatedContainer = document.getElementById("best-movie-grid");
-  const actionMoviesContainer = document.getElementById("action-movie-grid");
+  // Conteneurs pour les films
+  const bestRatedContainer = document.getElementById("best-movie-grid"); // Sélectionne le conteneur pour les films les mieux notés
+  const actionMoviesContainer = document.getElementById("action-movie-grid"); // Sélectionne le conteneur pour les films d'action
   const adventureMoviesContainer = document.getElementById(
     "adventure-movie-grid"
-  );
+  ); // Sélectionne le conteneur pour les films d'aventure
   const categoryMoviesContainer = document.getElementById(
     "category-movie-grid"
-  );
+  ); // Sélectionne le conteneur pour les films par catégorie
 
-  // Fetch and display the best movie
-  fetchMovies(`${baseURL}?page_size=7&sort_by=-imdb_score`)
+  // Récupérer et afficher le meilleur film
+  fetchMovies(`${baseURL}?page_size=7&sort_by=-imdb_score`) // Récupère les films les mieux notés
     .then((movies) => {
       if (movies && movies.length > 0) {
-        const bestMovie = movies[0];
-        updateBestMovieSection(bestMovie, bestMovieCard);
-        generateMovieCards(movies.slice(1), bestRatedContainer);
+        // Vérifie si des films ont été récupérés
+        const bestMovie = movies[0]; // Sélectionne le meilleur film
+        updateBestMovieSection(bestMovie, bestMovieCard); // Met à jour la section du meilleur film
+        generateMovieCards(movies.slice(1), bestRatedContainer); // Génère les cartes des autres films
       }
     })
     .catch((error) => {
-      console.error("Error fetching best movies:", error);
+      console.error("Error fetching best movies:", error); // Affiche une erreur en cas d'échec de la récupération des films
     });
 
-  // Fetch and display action movies
+  // Récupérer et afficher les films d'action
   fetchMovies(
     `${baseURL}?page_size=6&sort_by=-imdb_score&genre_contains=Action`
-  )
+  ) // Récupère les films d'action les mieux notés
     .then((movies) => {
       if (movies && movies.length > 0) {
-        generateMovieCards(movies, actionMoviesContainer);
+        // Vérifie si des films ont été récupérés
+        generateMovieCards(movies, actionMoviesContainer); // Génère les cartes des films d'action
       }
     })
     .catch((error) => {
-      console.error("Error fetching action movies:", error);
+      console.error("Error fetching action movies:", error); // Affiche une erreur en cas d'échec de la récupération des films d'action
     });
 
-  // Fetch and display adventure movies
+  // Récupérer et afficher les films d'aventure
   fetchMovies(
     `${baseURL}?page_size=6&sort_by=-imdb_score&genre_contains=Adventure`
-  )
+  ) // Récupère les films d'aventure les mieux notés
     .then((movies) => {
       if (movies && movies.length > 0) {
-        generateMovieCards(movies, adventureMoviesContainer);
+        // Vérifie si des films ont été récupérés
+        generateMovieCards(movies, adventureMoviesContainer); // Génère les cartes des films d'aventure
       }
     })
     .catch((error) => {
-      console.error("Error fetching adventure movies:", error);
+      console.error("Error fetching adventure movies:", error); // Affiche une erreur en cas d'échec de la récupération des films d'aventure
     });
 
-  // Populate the genre select
-  const categorySelect = document.getElementById("categorySelect");
-  fetchGenres("http://localhost:8000/api/v1/genres/?page_size=50")
+  // Peupler la sélection de genres
+  const categorySelect = document.getElementById("categorySelect"); // Sélectionne l'élément de sélection de catégorie
+  fetchGenres("http://localhost:8000/api/v1/genres/?page_size=50") // Récupère les genres disponibles
     .then((genres) => {
-      // Start with a default option
-      categorySelect.innerHTML = `<option value="">Select Genre</option>`;
+      // Commence avec une option par défaut
+      categorySelect.innerHTML = `<option value="">Select Genre</option>`; // Ajoute une option par défaut
       genres.forEach((genre) => {
-        const option = document.createElement("option");
-        option.value = genre.name;
-        option.textContent = genre.name;
-        categorySelect.appendChild(option);
+        const option = document.createElement("option"); // Crée un nouvel élément option
+        option.value = genre.name; // Définit la valeur de l'option
+        option.textContent = genre.name; // Définit le texte de l'option
+        categorySelect.appendChild(option); // Ajoute l'option à la sélection
       });
     })
     .catch((error) => {
-      console.error("Error fetching genres:", error);
+      console.error("Error fetching genres:", error); // Affiche une erreur en cas d'échec de la récupération des genres
     });
 
-  // Add event listener to load movies for the selected genre
+  // Ajouter un écouteur d'événements pour charger les films pour le genre sélectionné
   categorySelect.addEventListener("change", (event) => {
-    const selectedGenre = event.target.value;
+    const selectedGenre = event.target.value; // Récupère le genre sélectionné
     if (selectedGenre) {
       fetchMovies(
         `${baseURL}?page_size=6&sort_by=-imdb_score&genre_contains=${selectedGenre}`
-      )
+      ) // Récupère les films pour le genre sélectionné
         .then((movies) => {
           if (movies && movies.length > 0) {
-            generateMovieCards(movies, categoryMoviesContainer);
+            // Vérifie si des films ont été récupérés
+            generateMovieCards(movies, categoryMoviesContainer); // Génère les cartes des films pour le genre sélectionné
           } else {
             categoryMoviesContainer.innerHTML =
-              "No movies found for this genre.";
+              "No movies found for this genre."; // Affiche un message si aucun film n'est trouvé
           }
         })
         .catch((error) => {
-          console.error("Error fetching movies for selected genre:", error);
+          console.error("Error fetching movies for selected genre:", error); // Affiche une erreur en cas d'échec de la récupération des films pour le genre sélectionné
         });
     } else {
-      categoryMoviesContainer.innerHTML = "";
+      categoryMoviesContainer.innerHTML = ""; // Vide le conteneur si aucun genre n'est sélectionné
     }
   });
 }
 
-// Function to fetch movies from a given URL
+// Fonction pour récupérer les films à partir d'une URL donnée
 async function fetchMovies(url) {
-  return fetch(url)
-    .then((response) => response.json())
-    .then((data) => data.results)
+  return fetch(url) // Effectue une requête fetch à l'URL donnée
+    .then((response) => response.json()) // Convertit la réponse en JSON
+    .then((data) => data.results) // Retourne les résultats des films
     .catch((error) => {
-      console.error("Error fetching movies:", error);
-      return [];
+      console.error("Error fetching movies:", error); // Affiche une erreur en cas d'échec de la récupération des films
+      return []; // Retourne un tableau vide en cas d'erreur
     });
 }
 
-// Function to fetch genres from a given URL
+// Fonction pour récupérer les genres à partir d'une URL donnée
 async function fetchGenres(url) {
-  return fetch(url)
-    .then((response) => response.json())
-    .then((data) => data.results)
+  return fetch(url) // Effectue une requête fetch à l'URL donnée
+    .then((response) => response.json()) // Convertit la réponse en JSON
+    .then((data) => data.results) // Retourne les résultats des genres
     .catch((error) => {
-      console.error("Error fetching genres:", error);
-      return [];
+      console.error("Error fetching genres:", error); // Affiche une erreur en cas d'échec de la récupération des genres
+      return []; // Retourne un tableau vide en cas d'erreur
     });
 }
 
-// Function to update the best movie section
+// Fonction pour mettre à jour la section du meilleur film
 function updateBestMovieSection(movie, movieDetails) {
-  // Fetch additional details (e.g., description) for the best movie using its id
-  fetch(`http://127.0.0.1:8000/api/v1/titles/${movie.id}`)
-    .then((response) => response.json())
+  // Récupérer des détails supplémentaires (par exemple, description) pour le meilleur film en utilisant son id
+  fetch(`http://127.0.0.1:8000/api/v1/titles/${movie.id}`) // Récupère les détails du meilleur film
+    .then((response) => response.json()) // Convertit la réponse en JSON
     .then((detailData) => {
       movieDetails.innerHTML = `<div class="row g-0">
         <div class="col-md-4">
@@ -141,58 +145,53 @@ function updateBestMovieSection(movie, movieDetails) {
           </div>
         </div>
       </div>
-`;
-      //   movieDetails
-      //     .querySelector(".btn-details-main")
-      //     .addEventListener("click", function () {
-      //       showMovieModal(movie.id);
-      //     });
+`; // Met à jour le contenu HTML de la section du meilleur film
     })
     .catch((err) => {
-      console.error("Error fetching best movie details:", err);
-      descriptionElement.textContent = "Description non disponible.";
+      console.error("Error fetching best movie details:", err); // Affiche une erreur en cas d'échec de la récupération des détails du meilleur film
+      descriptionElement.textContent = "Description non disponible."; // Affiche un message si la description n'est pas disponible
     });
 }
 
-// Function to generate movie cards and append them to a container
+// Fonction pour générer des cartes de films et les ajouter à un conteneur
 function generateMovieCards(movies, container) {
-  container.innerHTML = ""; // Clear any existing content
+  container.innerHTML = ""; // Vide tout contenu existant
   movies.forEach((movie) => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
+    const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
+    card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
     card.innerHTML = `
         <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
         <div class="overlay">
         <h6>${movie.title}</h6>
         <button class="btn-details btn btn-light btn-sm">Détails</button>
         </div>
-    `;
-    // Add event listener for the details button to show the modal
+    `; // Définit le contenu HTML de la carte du film
+    // Ajouter un écouteur d'événements pour le bouton de détails afin d'afficher la modal
     card.querySelector(".btn-details").addEventListener("click", function () {
-      showMovieModal(movie.id);
+      showMovieModal(movie.id); // Affiche la modal avec les détails du film
     });
-    container.appendChild(card);
+    container.appendChild(card); // Ajoute la carte du film au conteneur
   });
 }
 
-// Function to show movie details in a modal using JavaScript
+// Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
 function showMovieModal(movieId) {
-  fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`)
-    .then((response) => response.json())
+  fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`) // Récupère les détails du film en utilisant son id
+    .then((response) => response.json()) // Convertit la réponse en JSON
     .then((movie) => {
-      // Remove any existing modal with the same ID
-      const existingModal = document.getElementById("movieDetailsModal");
+      // Supprime toute modal existante avec le même ID
+      const existingModal = document.getElementById("movieDetailsModal"); // Sélectionne la modal existante
       if (existingModal) {
-        existingModal.remove();
+        existingModal.remove(); // Supprime la modal existante
       }
-      // Build the modal HTML with the movie details
+      // Construire le HTML de la modal avec les détails du film
       const modalHtml = `
         <div class="modal fade" id="movieDetailsModal" tabindex="-1" aria-labelledby="movieDetailsModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
             <div class="modal-content movie-modal-content p-3">
                 <div class="modal-body">
                 <div class="row">
-                    <!-- Left Column: Movie Details -->
+                    <!-- Colonne de gauche : Détails du film -->
                     <div class="col-md-8">
                     <h2 class="movie-modal-title" id="movieDetailsModalLabel">${
                       movie.title
@@ -229,7 +228,7 @@ function showMovieModal(movieId) {
                         }
                     </div>
                     </div>
-                    <!-- Right Column: Poster Image -->
+                    <!-- Colonne de droite : Image de l'affiche -->
                     <div class="col-md-4 d-flex justify-content-center align-items-start">
                     <img
                         src="${movie.image_url}"
@@ -248,18 +247,18 @@ function showMovieModal(movieId) {
             </div>
             </div>
         </div>
-        `;
-      // Append the modal HTML to the body
-      document.body.insertAdjacentHTML("beforeend", modalHtml);
-      // Initialize and show the modal using Bootstrap's modal API
+        `; // Définit le contenu HTML de la modal
+      // Ajouter le HTML de la modal au corps du document
+      document.body.insertAdjacentHTML("beforeend", modalHtml); // Ajoute la modal au corps du document
+      // Initialiser et afficher la modal en utilisant l'API modal de Bootstrap
       const movieModal = new bootstrap.Modal(
         document.getElementById("movieDetailsModal")
-      );
-      movieModal.show();
+      ); // Initialise la modal Bootstrap
+      movieModal.show(); // Affiche la modal
     })
     .catch((error) => {
-      console.error("Error fetching movie details:", error);
+      console.error("Error fetching movie details:", error); // Affiche une erreur en cas d'échec de la récupération des détails du film
     });
 }
-// Call the main function
-main();
+// Appeler la fonction principale
+main(); // Appelle la fonction principale pour démarrer l'application
