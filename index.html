@@ -63,9 +63,10 @@
         flex-direction: column; /* Column layout for the movie details */
         justify-content: space-between; /* Space between items */
         position: relative; /* Relative positioning for the movie details */
+        height: 100%; /* Height of the movie details */
       }
       .best-movie-card img {
-        width: auto; /* Width of the best movie card image */
+        width: 100%; /* Width of the best movie card image */
         height: 100%; /* Height of the best movie card image */
         display: block; /* Display block for the best movie card image */
         padding: 20px; /* Padding around the best movie card image */
@@ -201,6 +202,10 @@
       }
 
       @media (max-width: 576px) {
+        h2 {
+          /* centrer les titres */
+          text-align: center;
+        }
         .movie-grid {
           grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
         }
@@ -212,6 +217,13 @@
         }
         .navbar {
           justify-content: center; /* Center the navbar on smaller screens */
+        }
+        .best-movie-card img {
+          width: 100%; /* Width of the best movie card image */
+          height: 320px; /* Height of the best movie card image */
+          display: block; /* Display block for the best movie card image */
+          padding: 20px; /* Padding around the best movie card image */
+          object-fit: cover; /* Tronque l'image pour remplir l'espace */
         }
         .btn-details-main {
           align-self: center; /* Center the main details button on smaller screens */

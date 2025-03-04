@@ -128,10 +128,10 @@ function updateBestMovieSection(movie, movieDetails) {
     .then((response) => response.json()) // Convertit la réponse en JSON
     .then((detailData) => {
       movieDetails.innerHTML = `<div class="row g-0">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
         </div>
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div class="movie-details">
             <h3>${movie.title}</h3>
             <p>${detailData.description}</p>
