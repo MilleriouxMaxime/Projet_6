@@ -1,16 +1,3 @@
-// Fonction principale pour récupérer et afficher les films et les genres
-function getElementPerPage() {
-  if (window.matchMedia("(max-width: 576px)").matches) {
-    return 2;
-  }
-
-  if (window.matchMedia("(max-width: 768px)").matches) {
-    return 4;
-  }
-
-  return 6;
-}
-
 function main() {
   // Définir l'URL de base
   const baseURL = "http://127.0.0.1:8000/api/v1/titles/"; // URL de base pour les requêtes API
@@ -26,9 +13,11 @@ function main() {
   const categoryMoviesContainer = document.getElementById(
     "category-movie-grid"
   ); // Sélectionne le conteneur pour les films par catégorie
+  const categories = ["best", "action", "adventure"];
+  const showMoreButtons = document.querySelectorAll(".see-more"); // Sélectionne les boutons "Voir plus"
 
   // Récupérer et afficher le meilleur film
-  const page_size = getElementPerPage() + 1;
+  const page_size = 7;
   fetchMovies(`${baseURL}?page_size=${page_size}&sort_by=-imdb_score`) // Récupère les films les mieux notés
     .then((movies) => {
       if (movies && movies.length > 0) {
@@ -46,7 +35,7 @@ function main() {
     { dom: actionMoviesContainer, genre: "Action" },
     { dom: adventureMoviesContainer, genre: "Adventure" },
   ].forEach(({ dom, genre }) => {
-    const page_size = getElementPerPage();
+    const page_size = 6;
     fetchMovies(
       `${baseURL}?page_size=${page_size}&sort_by=-imdb_score&genre_contains=${genre}`
     ) // Récupère les films d'action les mieux notés
@@ -100,6 +89,12 @@ function main() {
     } else {
       categoryMoviesContainer.innerHTML = ""; // Vide le conteneur si aucun genre n'est sélectionné
     }
+  });
+  categories.forEach((category, index) => {
+    const button = showMoreButtons[index];
+    button.addEventListener("click", () => {
+      showMoreMovies(category);
+    });
   });
 }
 
@@ -163,9 +158,14 @@ function updateBestMovieSection(movie, movieDetailsDom) {
 // Fonction pour générer des cartes de films et les ajouter à un conteneur
 function generateMovieCards(movies, container) {
   container.innerHTML = ""; // Vide tout contenu existant
-  movies.forEach((movie) => {
+  movies.forEach((movie, index) => {
     const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
     card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
+    if (index >= 4) {
+      card.classList.add("five-more"); // Ajoute la classe CSS "five-more" à la deuxième carte
+    } else if (index >= 2) {
+      card.classList.add("three-more"); // Ajoute la classe CSS "three-more" à la première carte
+    }
     card.innerHTML = `
         <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
         <div class="overlay">
@@ -181,6 +181,16 @@ function generateMovieCards(movies, container) {
   });
 }
 
+function showMoreMovies(category) {
+  const fiveMore = document.querySelectorAll(
+    `#${category}-movie-grid > .five-more, .three-more`
+  );
+  fiveMore.forEach((movie) => {
+    movie.style.display = "block";
+  });
+  const showMoreButton = document.getElementById("showMoreButton");
+  showMoreButton.style.display = "none";
+}
 // Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
 function showMovieModal(movieId) {
   fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`) // Récupère les détails du film en utilisant son id
