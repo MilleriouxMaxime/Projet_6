@@ -183,7 +183,14 @@
         background-color: #c82333; /* Darker red background on hover */
         border-color: #bd2130; /* Darker red border on hover */
       }
+      .see-more {
+        display: none;
+      }
+
       @media (max-width: 768px) {
+        .see-more {
+          display: block;
+        }
         .movie-grid {
           grid-template-columns: repeat(
             2,
@@ -277,12 +284,15 @@
       <!-- Films les mieux notés Section -->
       <h2>Films les mieux notés</h2>
       <div class="movie-grid" id="best-movie-grid"></div>
+      <button class="see-more">Voir plus</button>
       <!-- Action -->
       <h2>Action</h2>
       <div class="movie-grid" id="action-movie-grid"></div>
+      <button class="see-more">Voir plus</button>
       <!-- Adventure Section -->
       <h2>Adventure</h2>
       <div class="movie-grid" id="adventure-movie-grid"></div>
+      <button class="see-more">Voir plus</button>
       <!-- Autres Section -->
       <div class="d-flex align-items-center mb-3">
         <h2 class="me-3">Autres</h2>

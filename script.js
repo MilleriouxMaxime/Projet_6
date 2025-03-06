@@ -1,4 +1,16 @@
 // Fonction principale pour récupérer et afficher les films et les genres
+function getElementPerPage() {
+  if (window.matchMedia("(max-width: 576px)").matches) {
+    return 2;
+  }
+
+  if (window.matchMedia("(max-width: 767px)").matches) {
+    return 4;
+  }
+
+  return 6;
+}
+
 function main() {
   // Définir l'URL de base
   const baseURL = "http://127.0.0.1:8000/api/v1/titles/"; // URL de base pour les requêtes API
@@ -16,7 +28,8 @@ function main() {
   ); // Sélectionne le conteneur pour les films par catégorie
 
   // Récupérer et afficher le meilleur film
-  fetchMovies(`${baseURL}?page_size=7&sort_by=-imdb_score`) // Récupère les films les mieux notés
+  const page_size = getElementPerPage() + 1;
+  fetchMovies(`${baseURL}?page_size=${page_size}&sort_by=-imdb_score`) // Récupère les films les mieux notés
     .then((movies) => {
       if (movies && movies.length > 0) {
         // Vérifie si des films ont été récupérés
@@ -29,33 +42,24 @@ function main() {
       console.error("Error fetching best movies:", error); // Affiche une erreur en cas d'échec de la récupération des films
     });
 
-  // Récupérer et afficher les films d'action
-  fetchMovies(
-    `${baseURL}?page_size=6&sort_by=-imdb_score&genre_contains=Action`
-  ) // Récupère les films d'action les mieux notés
-    .then((movies) => {
-      if (movies && movies.length > 0) {
-        // Vérifie si des films ont été récupérés
-        generateMovieCards(movies, actionMoviesContainer); // Génère les cartes des films d'action
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching action movies:", error); // Affiche une erreur en cas d'échec de la récupération des films d'action
-    });
-
-  // Récupérer et afficher les films d'aventure
-  fetchMovies(
-    `${baseURL}?page_size=6&sort_by=-imdb_score&genre_contains=Adventure`
-  ) // Récupère les films d'aventure les mieux notés
-    .then((movies) => {
-      if (movies && movies.length > 0) {
-        // Vérifie si des films ont été récupérés
-        generateMovieCards(movies, adventureMoviesContainer); // Génère les cartes des films d'aventure
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching adventure movies:", error); // Affiche une erreur en cas d'échec de la récupération des films d'aventure
-    });
+  [
+    { dom: actionMoviesContainer, genre: "Action" },
+    { dom: adventureMoviesContainer, genre: "Adventure" },
+  ].forEach(({ dom, genre }) => {
+    const page_size = getElementPerPage();
+    fetchMovies(
+      `${baseURL}?page_size=${page_size}&sort_by=-imdb_score&genre_contains=${genre}`
+    ) // Récupère les films d'action les mieux notés
+      .then((movies) => {
+        if (movies && movies.length > 0) {
+          // Vérifie si des films ont été récupérés
+          generateMovieCards(movies, dom); // Génère les cartes des films d'action
+        }
+      })
+      .catch((error) => {
+        console.error(`Error fetching ${genre} movies:`, error); // Affiche une erreur en cas d'échec de la récupération des films d'action
+      });
+  });
 
   // Peupler la sélection de genres
   const categorySelect = document.getElementById("categorySelect"); // Sélectionne l'élément de sélection de catégorie
@@ -122,12 +126,12 @@ async function fetchGenres(url) {
 }
 
 // Fonction pour mettre à jour la section du meilleur film
-function updateBestMovieSection(movie, movieDetails) {
+function updateBestMovieSection(movie, movieDetailsDom) {
   // Récupérer des détails supplémentaires (par exemple, description) pour le meilleur film en utilisant son id
   fetch(`http://127.0.0.1:8000/api/v1/titles/${movie.id}`) // Récupère les détails du meilleur film
     .then((response) => response.json()) // Convertit la réponse en JSON
     .then((detailData) => {
-      movieDetails.innerHTML = `<div class="row g-0">
+      movieDetailsDom.innerHTML = `<div class="row g-0">
         <div class="col-md-3">
           <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
         </div>
@@ -137,8 +141,6 @@ function updateBestMovieSection(movie, movieDetails) {
             <p>${detailData.description}</p>
             <button
               class="btn-details-main"
-              data-bs-toggle="modal"
-              data-bs-target="#movieDetailsModal"
             >
               Détails
             </button>
@@ -146,6 +148,11 @@ function updateBestMovieSection(movie, movieDetails) {
         </div>
       </div>
 `; // Met à jour le contenu HTML de la section du meilleur film
+      movieDetailsDom
+        .querySelector(".btn-details-main")
+        .addEventListener("click", function () {
+          showMovieModal(movie.id); // Affiche la modal avec les détails du meilleur film
+        });
     })
     .catch((err) => {
       console.error("Error fetching best movie details:", err); // Affiche une erreur en cas d'échec de la récupération des détails du meilleur film
