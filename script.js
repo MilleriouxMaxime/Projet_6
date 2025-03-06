@@ -4,7 +4,7 @@ function getElementPerPage() {
     return 2;
   }
 
-  if (window.matchMedia("(max-width: 767px)").matches) {
+  if (window.matchMedia("(max-width: 768px)").matches) {
     return 4;
   }
 
