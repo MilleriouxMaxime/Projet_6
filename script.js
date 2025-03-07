@@ -168,34 +168,43 @@ function updateBestMovieSection(movie, movieDetailsDom) {
 // Fonction pour générer des cartes de films et les ajouter à un conteneur
 function generateMovieCards(movies, container) {
   container.innerHTML = ""; // Vide tout contenu existant
-  movies.forEach((movie, index) => {
-    isValidImage(movie.image_url)
-      .then((isValid) => {
-        return isValid ? movie.image_url : "image.png"; // Image de remplacement si l'image n'est pas valide // Utilise une image de remplacement si l'image n'est pas valide
-      })
-      .then((imageUrl) => {
-        const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
-        card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
-        if (index >= 4) {
-          card.classList.add("five-more", "hidden"); // Ajoute la classe CSS "five-more" à la deuxième carte
-        } else if (index >= 2) {
-          card.classList.add("three-more", "hidden"); // Ajoute la classe CSS "three-more" à la première carte
-        }
-        card.innerHTML = `
-        <img src="${imageUrl}" class="img-fluid" alt="${movie.title}" />
+
+  // Create an array of promises that resolve to the validated image URLs
+  const imagePromises = movies.map((movie) =>
+    isValidImage(movie.image_url).then((isValid) =>
+      isValid ? movie.image_url : "image.png"
+    )
+  );
+
+  // Attend la validation de toutes les images
+  Promise.all(imagePromises).then((imageUrls) => {
+    movies.forEach((movie, index) => {
+      const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
+      card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
+
+      // Affirme une consistance de l'index
+      if (index >= 4) {
+        card.classList.add("five-more", "hidden");
+      } else if (index >= 2) {
+        card.classList.add("three-more", "hidden");
+      }
+
+      // Met la bonne image dans le innerHTML
+      card.innerHTML = `
+        <img src="${imageUrls[index]}" class="img-fluid" alt="${movie.title}" />
         <div class="overlay">
-        <h6>${movie.title}</h6>
-        <button class="btn-details btn btn-light btn-sm">Détails</button>
+          <h6>${movie.title}</h6>
+          <button class="btn-details btn btn-light btn-sm">Détails</button>
         </div>
-    `; // Définit le contenu HTML de la carte du film
-        // Ajouter un écouteur d'événements pour le bouton de détails afin d'afficher la modal
-        card
-          .querySelector(".btn-details")
-          .addEventListener("click", function () {
-            showMovieModal(movie.id); // Affiche la modal avec les détails du film
-          });
-        container.appendChild(card); // Ajoute la carte du film au conteneur
+      `;
+
+      // Ajouter un écouteur d'événements pour le bouton de détails
+      card.querySelector(".btn-details").addEventListener("click", function () {
+        showMovieModal(movie.id);
       });
+
+      container.appendChild(card); // Ajoute la carte du film au conteneur
+    });
   });
 }
 
@@ -229,87 +238,81 @@ function showLessMovies(category) {
 
 // Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
 function showMovieModal(movieId) {
-  fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`) // Récupère les détails du film en utilisant son id
-    .then((response) => response.json()) // Convertit la réponse en JSON
+  fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`)
+    .then((response) => response.json())
     .then((movie) => {
-      // Supprime toute modal existante avec le même ID
-      const existingModal = document.getElementById("movieDetailsModal"); // Sélectionne la modal existante
-      if (existingModal) {
-        existingModal.remove(); // Supprime la modal existante
-      }
-      // Construire le HTML de la modal avec les détails du film
-      const modalHtml = `
-        <div class="modal fade" id="movieDetailsModal" tabindex="-1" aria-labelledby="movieDetailsModalLabel" aria-hidden="true">
+      let movieModalElement = document.getElementById("movieDetailsModal");
+
+      if (!movieModalElement) {
+        // Create the modal only once
+        document.body.insertAdjacentHTML(
+          "beforeend",
+          `<div class="modal fade" id="movieDetailsModal" tabindex="-1" aria-labelledby="movieDetailsModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-            <div class="modal-content movie-modal-content p-3">
+              <div class="modal-content movie-modal-content p-3">
                 <div class="modal-body">
-                <div class="row">
-                    <!-- Colonne de gauche : Détails du film -->
+                  <div class="row">
                     <div class="col-md-8">
-                    <h2 class="movie-modal-title" id="movieDetailsModalLabel">${
-                      movie.title
-                    }</h2>
-                    <div class="movie-modal-info">${movie.year} - ${
-        movie.genres ? movie.genres.join(", ") : ""
-      }</div>
-                    <div class="movie-modal-info">${
-                      movie.duration
-                    } minutes</div>
-                    <div class="movie-modal-rating">IMDB score: ${
-                      movie.imdb_score ? movie.imdb_score : ""
-                    }/10</div>
-                    <div class="movie-modal-directors">
-                        Réalisé par: ${
-                          movie.directors
-                            ? Array.isArray(movie.directors)
-                              ? movie.directors.join(", ")
-                              : movie.directors
-                            : ""
-                        }
+                      <h2 class="movie-modal-title" id="movieDetailsModalLabel"></h2>
+                      <div class="movie-modal-info" id="movieYearGenres"></div>
+                      <div class="movie-modal-info" id="movieDuration"></div>
+                      <div class="movie-modal-rating" id="movieRating"></div>
+                      <div class="movie-modal-directors" id="movieDirectors"></div>
+                      <div class="movie-modal-description" id="movieDescription"></div>
+                      <div class="movie-modal-cast" id="movieCast"></div>
                     </div>
-                    <div class="movie-modal-description">
-                        ${movie.long_description}
-                    </div>
-                    <div class="movie-modal-cast">
-                        <strong>Avec:</strong><br />
-                        ${
-                          movie.actors
-                            ? Array.isArray(movie.actors)
-                              ? movie.actors.join(", ")
-                              : movie.actors
-                            : ""
-                        }
-                    </div>
-                    </div>
-                    <!-- Colonne de droite : Image de l'affiche -->
                     <div class="col-md-4 d-flex justify-content-center align-items-start">
-                    <img
-                        src="${movie.image_url}"
-                        alt="${movie.title} Poster"
-                        class="img-fluid"
-                        style="max-height: 300px;"
-                    />
+                      <img id="moviePoster" class="img-fluid" style="max-height: 300px;" />
                     </div>
-                </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    Fermer
-                </button>
+                  <button type="button" class="btn btn-danger" id="modalCloseBtn" data-bs-dismiss="modal">Fermer</button>
                 </div>
+              </div>
             </div>
-            </div>
-        </div>
-        `; // Définit le contenu HTML de la modal
-      // Ajouter le HTML de la modal au corps du document
-      document.body.insertAdjacentHTML("beforeend", modalHtml); // Ajoute la modal au corps du document
-      // Initialiser et afficher la modal en utilisant l'API modal de Bootstrap
-      const movieModalElement = document.getElementById("movieDetailsModal"); // Sélectionne l'élément de la modal
-      const movieModal = new bootstrap.Modal(movieModalElement); // Initialise la modal Bootstrap
-      movieModal.show(); // Affiche la modal
+          </div>`
+        );
+        movieModalElement = document.getElementById("movieDetailsModal");
+      }
+
+      // Remove focus from any element inside the modal before showing it
+      document.activeElement.blur(); // Ensures nothing inside the modal retains focus
+
+      // Update modal content dynamically
+      document.getElementById("movieDetailsModalLabel").textContent =
+        movie.title;
+      document.getElementById("movieYearGenres").textContent = `${
+        movie.year
+      } - ${movie.genres ? movie.genres.join(", ") : ""}`;
+      document.getElementById(
+        "movieDuration"
+      ).textContent = `${movie.duration} minutes`;
+      document.getElementById("movieRating").textContent = `IMDB score: ${
+        movie.imdb_score ? movie.imdb_score : ""
+      }/10`;
+      document.getElementById("movieDirectors").textContent = `Réalisé par: ${
+        movie.directors ? movie.directors.join(", ") : ""
+      }`;
+      document.getElementById("movieDescription").textContent =
+        movie.long_description;
+      document.getElementById("movieCast").textContent = `Avec: ${
+        movie.actors ? movie.actors.join(", ") : ""
+      }`;
+      document.getElementById("moviePoster").src = movie.image_url;
+      document.getElementById("moviePoster").alt = `${movie.title} Poster`;
+
+      // Show the modal
+      const movieModal = new bootstrap.Modal(movieModalElement);
+      movieModal.show();
+
+      // Set focus to the close button to ensure accessibility
+      setTimeout(() => {
+        document.getElementById("modalCloseBtn").focus();
+      }, 300);
     })
     .catch((error) => {
-      console.error("Error fetching movie details:", error); // Affiche une erreur en cas d'échec de la récupération des détails du film
+      console.error("Error fetching movie details:", error);
     });
 }
 // Appeler la fonction principale
