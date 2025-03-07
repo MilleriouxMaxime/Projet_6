@@ -13,8 +13,9 @@ function main() {
   const categoryMoviesContainer = document.getElementById(
     "category-movie-grid"
   ); // Sélectionne le conteneur pour les films par catégorie
-  const categories = ["best", "action", "adventure"];
-  const showMoreButtons = document.querySelectorAll(".see-more"); // Sélectionne les boutons "Voir plus"
+  const categories = ["best", "action", "adventure", "category"]; // Catégories de films
+  const showMoreButtonsThree = document.querySelectorAll(".see-more-three"); // Sélectionne les boutons "Voir plus"
+  const showMoreButtonsFive = document.querySelectorAll(".see-more-five"); // Sélectionne les boutons "Voir plus"
 
   // Récupérer et afficher le meilleur film
   const page_size = 7;
@@ -91,9 +92,13 @@ function main() {
     }
   });
   categories.forEach((category, index) => {
-    const button = showMoreButtons[index];
-    button.addEventListener("click", () => {
-      showMoreMovies(category);
+    const buttonThree = showMoreButtonsThree[index];
+    const buttonFive = showMoreButtonsFive[index];
+    buttonThree.addEventListener("click", () => {
+      showMoreMovies(category, buttonThree, buttonFive, "mobile");
+    });
+    buttonFive.addEventListener("click", () => {
+      showMoreMovies(category, buttonThree, buttonFive, "tablet");
     });
   });
 }
@@ -181,14 +186,44 @@ function generateMovieCards(movies, container) {
   });
 }
 
-function showMoreMovies(category) {
+function showMoreMovies(category, buttonThree, buttonFive, device) {
+  const buttonText = buttonThree.textContent;
+  if (buttonText === "Voir moins") {
+    showLessMovies(category, device);
+    buttonThree.textContent = "Voir plus";
+    buttonFive.textContent = "Voir plus";
+    return;
+  }
+
   const fiveMore = document.querySelectorAll(
-    `#${category}-movie-grid > .five-more, .three-more` // Sélectionne les five-more et three-more enfants du conteneur category-movie-grid
+    `#${category}-movie-grid > .five-more, #${category}-movie-grid > .three-more` // Sélectionne les five-more et three-more enfants du conteneur category-movie-grid
   );
+
   fiveMore.forEach((movie) => {
     movie.style.display = "block";
   });
+
+  buttonThree.textContent = "Voir moins";
+  buttonFive.textContent = "Voir moins";
 }
+
+function showLessMovies(category, device) {
+  const fiveMore = document.querySelectorAll(
+    `#${category}-movie-grid > .five-more` // Sélectionne les five-more enfants du conteneur category-movie-grid
+  );
+  const threeMore = document.querySelectorAll(
+    `#${category}-movie-grid > .three-more` // Sélectionne les three-more enfants du conteneur category-movie-grid
+  );
+  if (device === "mobile") {
+    threeMore.forEach((movie) => {
+      movie.style.display = "none";
+    });
+  }
+  fiveMore.forEach((movie) => {
+    movie.style.display = "none";
+  });
+}
+
 // Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
 function showMovieModal(movieId) {
   fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`) // Récupère les détails du film en utilisant son id
