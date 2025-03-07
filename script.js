@@ -168,34 +168,43 @@ function updateBestMovieSection(movie, movieDetailsDom) {
 // Fonction pour générer des cartes de films et les ajouter à un conteneur
 function generateMovieCards(movies, container) {
   container.innerHTML = ""; // Vide tout contenu existant
-  movies.forEach((movie, index) => {
-    isValidImage(movie.image_url)
-      .then((isValid) => {
-        return isValid ? movie.image_url : "image.png"; // Image de remplacement si l'image n'est pas valide // Utilise une image de remplacement si l'image n'est pas valide
-      })
-      .then((imageUrl) => {
-        const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
-        card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
-        if (index >= 4) {
-          card.classList.add("five-more", "hidden"); // Ajoute la classe CSS "five-more" à la deuxième carte
-        } else if (index >= 2) {
-          card.classList.add("three-more", "hidden"); // Ajoute la classe CSS "three-more" à la première carte
-        }
-        card.innerHTML = `
-        <img src="${imageUrl}" class="img-fluid" alt="${movie.title}" />
+
+  // Create an array of promises that resolve to the validated image URLs
+  const imagePromises = movies.map((movie) =>
+    isValidImage(movie.image_url).then((isValid) =>
+      isValid ? movie.image_url : "image.png"
+    )
+  );
+
+  // Attend la validation de toutes les images
+  Promise.all(imagePromises).then((imageUrls) => {
+    movies.forEach((movie, index) => {
+      const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
+      card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
+
+      // Affirme une consistance de l'index
+      if (index >= 4) {
+        card.classList.add("five-more", "hidden");
+      } else if (index >= 2) {
+        card.classList.add("three-more", "hidden");
+      }
+
+      // Met la bonne image dans le innerHTML
+      card.innerHTML = `
+        <img src="${imageUrls[index]}" class="img-fluid" alt="${movie.title}" />
         <div class="overlay">
-        <h6>${movie.title}</h6>
-        <button class="btn-details btn btn-light btn-sm">Détails</button>
+          <h6>${movie.title}</h6>
+          <button class="btn-details btn btn-light btn-sm">Détails</button>
         </div>
-    `; // Définit le contenu HTML de la carte du film
-        // Ajouter un écouteur d'événements pour le bouton de détails afin d'afficher la modal
-        card
-          .querySelector(".btn-details")
-          .addEventListener("click", function () {
-            showMovieModal(movie.id); // Affiche la modal avec les détails du film
-          });
-        container.appendChild(card); // Ajoute la carte du film au conteneur
+      `;
+
+      // Ajouter un écouteur d'événements pour le bouton de détails
+      card.querySelector(".btn-details").addEventListener("click", function () {
+        showMovieModal(movie.id);
       });
+
+      container.appendChild(card); // Ajoute la carte du film au conteneur
+    });
   });
 }
 
