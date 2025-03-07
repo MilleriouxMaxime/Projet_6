@@ -183,13 +183,11 @@ function generateMovieCards(movies, container) {
 
 function showMoreMovies(category) {
   const fiveMore = document.querySelectorAll(
-    `#${category}-movie-grid > .five-more, .three-more`
+    `#${category}-movie-grid > .five-more, .three-more` // Sélectionne les five-more et three-more enfants du conteneur category-movie-grid
   );
   fiveMore.forEach((movie) => {
     movie.style.display = "block";
   });
-  const showMoreButton = document.getElementById("showMoreButton");
-  showMoreButton.style.display = "none";
 }
 // Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
 function showMovieModal(movieId) {
