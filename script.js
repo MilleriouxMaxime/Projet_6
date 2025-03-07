@@ -120,6 +120,16 @@ async function fetchGenres(url) {
     });
 }
 
+function isValidImage(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = url;
+
+    img.onload = () => resolve(true); // Image loaded successfully
+    img.onerror = () => resolve(false); // Image failed to load
+  });
+}
+
 // Fonction pour mettre à jour la section du meilleur film
 function updateBestMovieSection(movie, movieDetailsDom) {
   // Récupérer des détails supplémentaires (par exemple, description) pour le meilleur film en utilisant son id
@@ -159,25 +169,33 @@ function updateBestMovieSection(movie, movieDetailsDom) {
 function generateMovieCards(movies, container) {
   container.innerHTML = ""; // Vide tout contenu existant
   movies.forEach((movie, index) => {
-    const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
-    card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
-    if (index >= 4) {
-      card.classList.add("five-more", "hidden"); // Ajoute la classe CSS "five-more" à la deuxième carte
-    } else if (index >= 2) {
-      card.classList.add("three-more", "hidden"); // Ajoute la classe CSS "three-more" à la première carte
-    }
-    card.innerHTML = `
-        <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
+    isValidImage(movie.image_url)
+      .then((isValid) => {
+        return isValid ? movie.image_url : "image.png"; // Image de remplacement si l'image n'est pas valide // Utilise une image de remplacement si l'image n'est pas valide
+      })
+      .then((imageUrl) => {
+        const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
+        card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
+        if (index >= 4) {
+          card.classList.add("five-more", "hidden"); // Ajoute la classe CSS "five-more" à la deuxième carte
+        } else if (index >= 2) {
+          card.classList.add("three-more", "hidden"); // Ajoute la classe CSS "three-more" à la première carte
+        }
+        card.innerHTML = `
+        <img src="${imageUrl}" class="img-fluid" alt="${movie.title}" />
         <div class="overlay">
         <h6>${movie.title}</h6>
         <button class="btn-details btn btn-light btn-sm">Détails</button>
         </div>
     `; // Définit le contenu HTML de la carte du film
-    // Ajouter un écouteur d'événements pour le bouton de détails afin d'afficher la modal
-    card.querySelector(".btn-details").addEventListener("click", function () {
-      showMovieModal(movie.id); // Affiche la modal avec les détails du film
-    });
-    container.appendChild(card); // Ajoute la carte du film au conteneur
+        // Ajouter un écouteur d'événements pour le bouton de détails afin d'afficher la modal
+        card
+          .querySelector(".btn-details")
+          .addEventListener("click", function () {
+            showMovieModal(movie.id); // Affiche la modal avec les détails du film
+          });
+        container.appendChild(card); // Ajoute la carte du film au conteneur
+      });
   });
 }
 
@@ -286,9 +304,8 @@ function showMovieModal(movieId) {
       // Ajouter le HTML de la modal au corps du document
       document.body.insertAdjacentHTML("beforeend", modalHtml); // Ajoute la modal au corps du document
       // Initialiser et afficher la modal en utilisant l'API modal de Bootstrap
-      const movieModal = new bootstrap.Modal(
-        document.getElementById("movieDetailsModal")
-      ); // Initialise la modal Bootstrap
+      const movieModalElement = document.getElementById("movieDetailsModal"); // Sélectionne l'élément de la modal
+      const movieModal = new bootstrap.Modal(movieModalElement); // Initialise la modal Bootstrap
       movieModal.show(); // Affiche la modal
     })
     .catch((error) => {
