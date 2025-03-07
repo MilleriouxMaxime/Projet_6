@@ -167,9 +167,9 @@ function generateMovieCards(movies, container) {
     const card = document.createElement("div"); // Crée un nouvel élément div pour la carte du film
     card.classList.add("movie-card"); // Ajoute la classe CSS "movie-card" à l'élément div
     if (index >= 4) {
-      card.classList.add("five-more"); // Ajoute la classe CSS "five-more" à la deuxième carte
+      card.classList.add("five-more", "hidden"); // Ajoute la classe CSS "five-more" à la deuxième carte
     } else if (index >= 2) {
-      card.classList.add("three-more"); // Ajoute la classe CSS "three-more" à la première carte
+      card.classList.add("three-more", "hidden"); // Ajoute la classe CSS "three-more" à la première carte
     }
     card.innerHTML = `
         <img src="${movie.image_url}" class="img-fluid" alt="${movie.title}" />
@@ -195,12 +195,12 @@ function showMoreMovies(category, buttonThree, buttonFive, device) {
     return;
   }
 
-  const fiveMore = document.querySelectorAll(
+  const elementToShow = document.querySelectorAll(
     `#${category}-movie-grid > .five-more, #${category}-movie-grid > .three-more` // Sélectionne les five-more et three-more enfants du conteneur category-movie-grid
   );
 
-  fiveMore.forEach((movie) => {
-    movie.style.display = "block";
+  elementToShow.forEach((movie) => {
+    movie.classList.remove("hidden");
   });
 
   buttonThree.textContent = "Voir moins";
@@ -208,19 +208,11 @@ function showMoreMovies(category, buttonThree, buttonFive, device) {
 }
 
 function showLessMovies(category, device) {
-  const fiveMore = document.querySelectorAll(
-    `#${category}-movie-grid > .five-more` // Sélectionne les five-more enfants du conteneur category-movie-grid
+  const elementToHide = document.querySelectorAll(
+    `#${category}-movie-grid > .five-more, #${category}-movie-grid > .three-more` // Sélectionne les five-more enfants du conteneur category-movie-grid
   );
-  const threeMore = document.querySelectorAll(
-    `#${category}-movie-grid > .three-more` // Sélectionne les three-more enfants du conteneur category-movie-grid
-  );
-  if (device === "mobile") {
-    threeMore.forEach((movie) => {
-      movie.style.display = "none";
-    });
-  }
-  fiveMore.forEach((movie) => {
-    movie.style.display = "none";
+  elementToHide.forEach((movie) => {
+    movie.classList.add("hidden");
   });
 }
 
