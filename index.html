@@ -183,19 +183,13 @@
         background-color: #c82333; /* Darker red background on hover */
         border-color: #bd2130; /* Darker red border on hover */
       }
-      .see-more-three {
-        display: none;
-      }
-      .see-more-five {
+      .see-more {
         display: none;
       }
 
       @media (max-width: 768px) {
-        .see-more-five {
+        .see-more {
           display: block;
-        }
-        .see-more-three {
-          display: none;
         }
         .five-more.hidden {
           display: none;
@@ -219,12 +213,6 @@
       }
 
       @media (max-width: 576px) {
-        .see-more-three {
-          display: block;
-        }
-        .see-more-five {
-          display: none;
-        }
         h2 {
           /* centrer les titres */
           text-align: center;
@@ -303,18 +291,18 @@
       <!-- Films les mieux notés Section -->
       <h2>Films les mieux notés</h2>
       <div class="movie-grid" id="best-movie-grid"></div>
-      <button class="see-more-three">Voir plus</button>
-      <button class="see-more-five">Voir plus</button>
+      <button class="see-more">Voir plus</button>
+
       <!-- Action -->
       <h2>Action</h2>
       <div class="movie-grid" id="action-movie-grid"></div>
-      <button class="see-more-three">Voir plus</button>
-      <button class="see-more-five">Voir plus</button>
+      <button class="see-more">Voir plus</button>
+
       <!-- Adventure Section -->
       <h2>Adventure</h2>
       <div class="movie-grid" id="adventure-movie-grid"></div>
-      <button class="see-more-three">Voir plus</button>
-      <button class="see-more-five">Voir plus</button>
+      <button class="see-more">Voir plus</button>
+
       <!-- Autres Section -->
       <div class="d-flex align-items-center mb-3">
         <h2 class="me-3">Autres</h2>
@@ -323,8 +311,7 @@
         </div>
       </div>
       <div class="movie-grid" id="category-movie-grid"></div>
-      <button class="see-more-three">Voir plus</button>
-      <button class="see-more-five">Voir plus</button>
+      <button class="see-more">Voir plus</button>
     </main>
 
     <!-- Bootstrap JS (Optional) -->

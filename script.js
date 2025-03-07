@@ -14,8 +14,7 @@ function main() {
     "category-movie-grid"
   ); // Sélectionne le conteneur pour les films par catégorie
   const categories = ["best", "action", "adventure", "category"]; // Catégories de films
-  const showMoreButtonsThree = document.querySelectorAll(".see-more-three"); // Sélectionne les boutons "Voir plus"
-  const showMoreButtonsFive = document.querySelectorAll(".see-more-five"); // Sélectionne les boutons "Voir plus"
+  const showMoreButtons = document.querySelectorAll(".see-more"); // Sélectionne les boutons "Voir plus"
 
   // Récupérer et afficher le meilleur film
   const page_size = 7;
@@ -92,13 +91,9 @@ function main() {
     }
   });
   categories.forEach((category, index) => {
-    const buttonThree = showMoreButtonsThree[index];
-    const buttonFive = showMoreButtonsFive[index];
-    buttonThree.addEventListener("click", () => {
-      showMoreMovies(category, buttonThree, buttonFive, "mobile");
-    });
-    buttonFive.addEventListener("click", () => {
-      showMoreMovies(category, buttonThree, buttonFive, "tablet");
+    const button = showMoreButtons[index];
+    button.addEventListener("click", () => {
+      showMoreMovies(category, button);
     });
   });
 }
@@ -186,12 +181,11 @@ function generateMovieCards(movies, container) {
   });
 }
 
-function showMoreMovies(category, buttonThree, buttonFive, device) {
-  const buttonText = buttonThree.textContent;
+function showMoreMovies(category, button) {
+  const buttonText = button.textContent;
   if (buttonText === "Voir moins") {
-    showLessMovies(category, device);
-    buttonThree.textContent = "Voir plus";
-    buttonFive.textContent = "Voir plus";
+    showLessMovies(category);
+    button.textContent = "Voir plus";
     return;
   }
 
@@ -203,11 +197,10 @@ function showMoreMovies(category, buttonThree, buttonFive, device) {
     movie.classList.remove("hidden");
   });
 
-  buttonThree.textContent = "Voir moins";
-  buttonFive.textContent = "Voir moins";
+  button.textContent = "Voir moins";
 }
 
-function showLessMovies(category, device) {
+function showLessMovies(category) {
   const elementToHide = document.querySelectorAll(
     `#${category}-movie-grid > .five-more, #${category}-movie-grid > .three-more` // Sélectionne les five-more enfants du conteneur category-movie-grid
   );
