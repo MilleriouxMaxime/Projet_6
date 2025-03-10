@@ -176,6 +176,15 @@ body {
   @media (max-width: 768px) {
     .see-more {
       display: block;
+      background-color: #fa0b0b; /* Background color for the danger button */
+      border-color: #fa0b0b; /* Border color for the danger button */
+      color: #fff; /* Text color for the danger button */
+      padding: 0.1rem 4rem; /* Padding inside the danger button */
+      border-radius: 30px; /* Border radius for the danger button */
+      cursor: pointer; /* Cursor style for the danger button */
+      margin: 0 auto; /* Center the button */
+      margin-top: 20px; /* Top margin for the button */
+      
     }
     .five-more.hidden {
       display: none;
