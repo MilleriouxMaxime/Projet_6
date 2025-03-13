@@ -338,3 +338,10 @@ function closeCustomModal() {
 }
 // Appeler la fonction principale
 main(); // Appelle la fonction principale pour démarrer l'application
+
+// Pour éviter l'erreur de la modal avec aria-hidden
+document.addEventListener("hide.bs.modal", function () {
+  if (document.activeElement) {
+    document.activeElement.blur();
+  }
+});
