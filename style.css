@@ -171,6 +171,22 @@ body {
   }
   .see-more {
     display: none;
+    background-color: #FA0B0B;
+    color: white;
+    font-weight: 500;
+    font-family: Oswald, sans-serif;
+    border: none;
+    border-radius: 20px;
+    width: 214px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  .see-more:hover {
+    background-color: #c82333;
   }
 
   @media (max-width: 768px) {
@@ -208,6 +224,11 @@ body {
     }
     .movie-grid {
       grid-template-columns: 1fr; /* Adjust to 1 column on even smaller screens */
+      justify-items: center; /* Center movie cards on mobile */
+    }
+    .movie-card {
+      width: 100%; /* Maintain consistent width on mobile */
+      max-width: 400px; /* Keep the same max-width */
     }
     .logo span {
       display: none; /* Hide the logo text on smaller screens */
