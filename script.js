@@ -227,90 +227,114 @@ function showLessMovies(category) {
   });
 }
 
-// Fonction pour afficher les détails du film dans une modal en utilisant JavaScript
+// Fonction pour afficher les détails du film dans une modal custom
 function showMovieModal(movieId) {
   fetch(`http://127.0.0.1:8000/api/v1/titles/${movieId}`) // Récupère les détails du film en utilisant son id
     .then((response) => response.json()) // Convertit la réponse en JSON
     .then((movie) => {
       // Supprime toute modal existante avec le même ID
-      const existingModal = document.getElementById("movieDetailsModal"); // Sélectionne la modal existante
+      const existingModal = document.getElementById("customMovieModal"); // Sélectionne la modal existante
       if (existingModal) {
         existingModal.remove(); // Supprime la modal existante
       }
-      // Construire le HTML de la modal avec les détails du film
+
+      // Construire le HTML de la modal custom avec les détails du film
       const modalHtml = `
-        <div class="modal fade" id="movieDetailsModal" tabindex="-1" aria-labelledby="movieDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-            <div class="modal-content movie-modal-content p-3">
-                <div class="modal-body">
-                <div class="row">
-                    <!-- Colonne de gauche : Détails du film -->
-                    <div class="col-md-8">
-                    <h2 class="movie-modal-title" id="movieDetailsModalLabel">${
-                      movie.title
-                    }</h2>
-                    <div class="movie-modal-info">${movie.year} - ${
-        movie.genres ? movie.genres.join(", ") : ""
-      }</div>
-                    <div class="movie-modal-info">${
-                      movie.duration
-                    } minutes</div>
-                    <div class="movie-modal-rating">IMDB score: ${
-                      movie.imdb_score ? movie.imdb_score : ""
-                    }/10</div>
-                    <div class="movie-modal-directors">
-                        Réalisé par: ${
-                          movie.directors
-                            ? Array.isArray(movie.directors)
-                              ? movie.directors.join(", ")
-                              : movie.directors
-                            : ""
-                        }
-                    </div>
-                    <div class="movie-modal-description">
-                        ${movie.long_description}
-                    </div>
-                    <div class="movie-modal-cast">
-                        <strong>Avec:</strong><br />
-                        ${
-                          movie.actors
-                            ? Array.isArray(movie.actors)
-                              ? movie.actors.join(", ")
-                              : movie.actors
-                            : ""
-                        }
-                    </div>
-                    </div>
-                    <!-- Colonne de droite : Image de l'affiche -->
-                    <div class="col-md-4 d-flex justify-content-center align-items-start">
-                    <img
-                        src="${movie.image_url}"
-                        alt="${movie.title} Poster"
-                        class="img-fluid"
-                        style="max-height: 300px;"
-                    />
-                    </div>
+        <div class="custom-modal" id="customMovieModal">
+          <div class="custom-modal-content">
+            <div class="custom-modal-body">
+              <div class="modal-metadata">
+                <div class="modal-title-row">
+                  <div class="movie-modal-title">${movie.title}</div>
+                  <button class="custom-modal-close" onclick="closeCustomModal()">❌</button>
                 </div>
+                <div class="movie-modal-info">${movie.year} - ${
+                  movie.genres ? movie.genres.join(", ") : ""
+                }</div>
+                <div class="movie-modal-info">${movie.duration} 
+                minutes${
+                  movie.countries && movie.countries.length > 0 
+                    ? ` (${movie.countries.join(" / ")})` 
+                    : ""
+                }</div>
+                <div class="movie-modal-rating">IMDB score: ${
+                  movie.imdb_score ? movie.imdb_score : ""
+                }/10</div>
+                <div class="movie-modal-directors">
+                  Réalisé par: ${
+                    movie.directors
+                      ? Array.isArray(movie.directors)
+                        ? movie.directors.join(", ")
+                        : movie.directors
+                      : ""
+                  }
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                    Fermer
-                </button>
+              </div>
+              <div class="modal-image">
+                <img
+                  src="${movie.image_url}"
+                  alt="${movie.title} Poster"
+                  onerror="this.src='image.png'"
+                />
+              </div>
+              <div class="modal-description">
+                <div class="movie-modal-description">
+                  ${movie.long_description}
                 </div>
+              </div>
+              <div class="modal-cast">
+                <div class="movie-modal-cast">
+                  <strong>Avec:</strong><br />
+                  ${
+                    movie.actors
+                      ? Array.isArray(movie.actors)
+                        ? movie.actors.join(", ")
+                        : movie.actors
+                      : ""
+                  }
+                </div>
+              </div>
             </div>
+            <div class="custom-modal-footer">
+              <button type="button" class="btn" onclick="closeCustomModal()">
+                Fermer
+              </button>
             </div>
+          </div>
         </div>
-        `; // Définit le contenu HTML de la modal
+      `; // Définit le contenu HTML de la modal custom
+
       // Ajouter le HTML de la modal au corps du document
       document.body.insertAdjacentHTML("beforeend", modalHtml); // Ajoute la modal au corps du document
-      // Initialiser et afficher la modal en utilisant l'API modal de Bootstrap
-      const movieModalElement = document.getElementById("movieDetailsModal"); // Sélectionne l'élément de la modal
-      const movieModal = new bootstrap.Modal(movieModalElement); // Initialise la modal Bootstrap
-      movieModal.show(); // Affiche la modal
+
+      // Afficher la modal custom et bloquer le scroll
+      const customModal = document.getElementById("customMovieModal");
+      customModal.classList.add("show");
+      document.body.classList.add("modal-open");
+
+      // Fermer la modal en cliquant sur l'arrière-plan
+      customModal.addEventListener("click", function(e) {
+        if (e.target === customModal) {
+          closeCustomModal();
+        }
+      });
     })
     .catch((error) => {
       console.error("Error fetching movie details:", error); // Affiche une erreur en cas d'échec de la récupération des détails du film
     });
+}
+
+// Fonction pour fermer la modal custom
+function closeCustomModal() {
+  const customModal = document.getElementById("customMovieModal");
+  if (customModal) {
+    customModal.classList.remove("show");
+    document.body.classList.remove("modal-open");
+    // Supprimer la modal après l'animation
+    setTimeout(() => {
+      customModal.remove();
+    }, 300);
+  }
 }
 // Appeler la fonction principale
 main(); // Appelle la fonction principale pour démarrer l'application
