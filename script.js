@@ -258,12 +258,12 @@ function showMovieModal(movieId) {
                   <button class="custom-modal-close" onclick="closeCustomModal()">❌</button>
                 </div>
                 <div class="movie-modal-info">${movie.year} - ${
-                  movie.genres ? movie.genres.join(", ") : ""
-                }</div>
+        movie.genres ? movie.genres.join(", ") : ""
+      }</div>
                 <div class="movie-modal-info">${movie.duration} 
                 minutes${
-                  movie.countries && movie.countries.length > 0 
-                    ? ` (${movie.countries.join(" / ")})` 
+                  movie.countries && movie.countries.length > 0
+                    ? ` (${movie.countries.join(" / ")})`
                     : ""
                 }</div>
                 <div class="movie-modal-rating">IMDB score: ${
@@ -322,7 +322,7 @@ function showMovieModal(movieId) {
       document.body.classList.add("modal-open");
 
       // Fermer la modal en cliquant sur l'arrière-plan
-      customModal.addEventListener("click", function(e) {
+      customModal.addEventListener("click", function (e) {
         if (e.target === customModal) {
           closeCustomModal();
         }
